@@ -1,0 +1,42 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+<header class="wishlist-header">
+    <h1><span>𝓜𝔂 </span>𝓦𝓲𝓼𝓱𝓵𝓲𝓼𝓽</h1>
+</header>
+
+<main>
+  
+
+    {% if wishlist_items %}
+        <div class="wishlist-container">
+            {% for product in wishlist_items %}
+                <div class="wishlist-item">
+                    <div class="wishlist-item-info">
+                        <a href="{% url 'product_detail' product.id %}" class="product-link">
+                            <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" class="wishlist-item-image">
+                        </a>
+                        <div class="wishlist-details">
+                            <h3 class="wishlist-product-name">{{ product.name }}</h3>
+                            <div class="wishlist-rating">
+                                <span class="rating-value">{{ product.rating }}</span>
+                                <span class="rating-stars">⭐</span>
+                                <span class="rating-count">({{ product.rating_count }})</span>
+                            </div>
+                            <p class="wishlist-price">₹{{ product.price }}</p>
+                        </div>
+                    </div>
+                    <div class="wishlist-item-actions">
+                        <a href="{% url 'delete_from_wishlist' product.id %}" class="remove-item">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Your wishlist is empty.</p>
+    {% endif %}
+</main>
+
+{% endblock %}

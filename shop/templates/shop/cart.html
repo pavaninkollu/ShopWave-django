@@ -1,0 +1,86 @@
+{% extends 'shop/base.html' %}
+{% load humanize %}
+{% block content %}
+<div class="cart-header">
+    <h1>𝖈𝖆𝖗𝖙<span> 𝖎𝖙𝖊𝖒𝖘</span></h1>
+</div>
+
+<div class="cart-items">
+    {% for item in cart_items %}
+        <div class="cart-item">
+
+            <!-- Delete Item Form with X symbol -->
+            <div class="item-header">
+                <form method="POST" action="{% url 'delete_cart_item' item.id %}" class="delete-item-form" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-btn" title="Remove item">&times;</button>
+                </form>
+            </div>
+
+            <img src="{{ item.product.images.first.image.url }}" alt="{{ item.product.name }}" class="cart-item-image">
+            <div class="item-details">
+                <h3 class="item-name">{{ item.product.name }}</h3>
+                <p class="item-price">Price: ₹<span class="price">{{ item.product.price|intcomma }}</span></p>
+
+                <form method="POST" class="update-quantity-form">
+                    {% csrf_token %}
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" name="quantity_{{ item.product.id }}" value="{{ item.quantity }}" min="1" class="quantity-input" data-price="{{ item.product.price }}" oninput="updateTotal(this)">
+                    <p>Total: ₹<span class="item-total" data-item-id="{{ item.product.id }}">{{ item.item_total|intcomma }}</span></p>
+                    <button type="submit" class="update-btn">Update</button>
+                </form>
+
+                
+               
+
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Separate row for total price and checkout -->
+
+<div class="checkout-summary">
+    <h3>Order Summary</h3>
+    <p><strong>Items:</strong> {{ cart_items|length }}</p>
+    <p><strong>Shipping:</strong> Free</p>
+    <p class="total">Total Price: ₹<span id="grand-total"></strong>{{ total_price|intcomma }}</span></p>
+    <div class="actions">
+        <a href="{% url 'product_list' %}" class="btn go-back-btn"><span>Continue shopping</span></a>
+        <a href="{% url 'checkout' %}" class="btn">Proceed to Checkout</a>
+    </div>
+</div>
+   
+
+
+<script>
+    function updateTotal(input) {
+        // Get the price from the data attribute
+        const price = parseFloat(input.getAttribute('data-price'));
+        // Get the quantity entered by the user
+        const quantity = parseInt(input.value);
+        
+        // Calculate the total for the item
+        const itemTotal = price * quantity;
+
+        // Update the item's total display
+        const itemTotalElement = input.closest('.update-quantity-form').querySelector('.item-total');
+        itemTotalElement.innerText = itemTotal.toFixed(2); // Display total with two decimal places
+        
+        // Optionally, update the grand total
+        updateGrandTotal();
+    }
+
+    function updateGrandTotal() {
+        const totalElements = document.querySelectorAll('.item-total');
+        let grandTotal = 0;
+
+        totalElements.forEach(totalElement => {
+            grandTotal += parseFloat(totalElement.innerText);
+        });
+
+        document.getElementById('grand-total').innerText = grandTotal.toFixed(2);
+    }
+</script>
+
+{% endblock %}

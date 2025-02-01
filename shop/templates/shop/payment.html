@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <h2>Complete Your Payment</h2>
+    <button id="pay-btn">Pay Now</button>
+
+    <script>
+        var options = {
+            "key": "{{ razorpay_merchant_key }}",
+            "amount": "{{ amount }}",
+            "currency": "{{ currency }}",
+            "name": "Your Site Name",
+            "description": "Purchase Description",
+            "order_id": "{{ razorpay_order_id }}",
+            "handler": function (response){
+                fetch("{% url 'verify_payment' %}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": "{{ csrf_token }}"
+                    },
+                    body: JSON.stringify({
+                        "razorpay_payment_id": response.razorpay_payment_id,
+                        "razorpay_order_id": response.razorpay_order_id,
+                        "razorpay_signature": response.razorpay_signature
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.status);
+                    if (data.status === "Payment successful") {
+                        window.location.href = "/order-history/";
+                    } else {
+                        window.location.href = "/payment-failed/";
+                    }
+                });
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp = new Razorpay(options);
+
+        document.getElementById("pay-btn").onclick = function(e){
+            rzp.open();
+            e.preventDefault();
+        }
+    </script>
+</body>
+</html>

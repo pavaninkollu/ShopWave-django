@@ -1,0 +1,65 @@
+{% extends 'shop/base.html' %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'shop/css/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2>Checkout</h2>
+
+<!-- Section 1: Delivery Address -->
+<div class="checkout-section">
+    <h3>1. Delivery Address</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="checkout-field">
+            <label for="address">Address:</label>
+            <textarea name="address" id="address" required>{{ user.userprofile.address }}</textarea>
+        </div>
+        <div class="checkout-field">
+            <label for="phone_number">Phone Number:</label>
+            <input type="text" name="phone_number" id="phone_number" value="{{ user.userprofile.phone_number }}" required>
+        </div>
+
+        <!-- Section 2: Product Order Summary -->
+        <div class="checkout-section">
+            <h3>2. Product Order Summary</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                        <tr>
+                            <td>
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="checkout-product-image">
+                            </td>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>₹{{ item.price_per_item }}</td>
+                            <td>₹{{ item.item_total }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <p><strong>Total Price: ₹{{ total_price }}</strong></p>
+        </div>
+
+        <!-- Section 3: Payment Section (Future Implementation) -->
+        <div class="checkout-section">
+            <h3>3. Payment</h3>
+            <p>This section will be implemented later.</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Place Order</button>
+    </form>
+</div>
+
+{% endblock %}

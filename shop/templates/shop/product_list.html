@@ -1,0 +1,116 @@
+{% extends 'shop/base.html' %}
+{% load humanize %}
+{% block content %}
+{% load static %}
+
+<div class="product-list-heading">
+    <h2>𝒫𝓇𝑜𝒹𝓊𝒸𝓉𝓈</h2>
+</div>
+
+<aside class="category-filter">
+    <h3>Categories</h3>
+    <form method="GET" action="{% url 'product_list' %}">
+        <select name="category" id="category" onchange="this.form.submit()">
+            <option value="">--All Categories--</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}" {% if category.id|stringformat:"s" == request.GET.category %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+</aside>
+
+<!-- Display Products for Each Category -->
+<div class="product-categories">
+    {% for category in categories %}
+        <div class="category-section">
+            <div class="category-products">
+                {% for product in category.product_set.all %}
+                    <div class="product-card">
+                        <a href="{% url 'product_detail' product.id %}">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="category-thumbnail-image">
+                            <h3 class="cat-product-name">{{ product.name }}</h3>
+                            <p class="cat-product-price">${{ product.price }}</p>
+
+                            <!-- Rating Display with Color -->
+                            <div class="rating">
+                                {% with product.rating as rating %}
+                                    {% for i in "12345"|make_list %}
+                                        {% if i <= rating|floatformat:0 %}
+                                            <span class="star filled 
+                                                {% if rating >= 4 %}
+                                                    high-rating
+                                                {% elif rating >= 3 %}
+                                                    medium-rating
+                                                {% else %}
+                                                    low-rating
+                                                {% endif %}
+                                            ">&#9733;</span>
+                                        {% else %}
+                                            <span class="star">&#9733;</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endwith %}
+                            </div>
+
+                            <!-- Review Count -->
+                            <span class="review-count">({{ product.reviews_count }} Reviews)</span>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="product-list-grid">
+    {% for product in products %}
+        <div class="product-list-card">
+            <a href="{% url 'product_detail' product.id %}" class="product-link">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="thumbnail-image">
+            </a>
+        
+            <div class="product-list-info">
+                <h3 class="product-list-name">{{ product.name }}</h3>
+                <div class="rating-wishlist-row">
+                    <div class="rating">
+                        {% with product.rating as rating %}
+                            {% for i in "12345"|make_list %}
+                                {% if i <= rating|floatformat:0 %}
+                                    <span class="star filled
+                                        {% if rating >= 4 %}
+                                            high-rating
+                                        {% elif rating >= 3 %}
+                                            medium-rating
+                                        {% else %}
+                                            low-rating
+                                        {% endif %}
+                                    ">&#9733;</span>
+                                {% else %}
+                                    <span class="star">&#9733;</span>
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                    <span class="review-count">({{ product.reviews_count }} Reviews)</span>
+                    
+                </div>
+                <p class="product-list-price">₹{{ product.price|intcomma }}</p>
+                <div class="product-action-buttons">
+                    <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart">Add to Cart</a>
+                    <a href="{% url 'add_to_wishlist' product.id %}" class="wishlist-btn">
+                        <i class="fa fa-heart wishlist-icon" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {# Close row after every 10 products #}
+        {% if forloop.counter|divisibleby:10 %}
+            </div><div class="product-list-grid">
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock %}
