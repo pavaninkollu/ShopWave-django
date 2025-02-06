@@ -14,6 +14,7 @@ from django.conf import settings
 
 
 
+
 # Initialize Razorpay client
 razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
@@ -241,11 +242,11 @@ def product_detail_view(request, product_id):
 def buy_now(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     
-    # Create a new cart or get the existing one
+   
     cart, created = Cart.objects.get_or_create(user=request.user)
-    CartItem.objects.create(cart=cart, product=product, quantity=1)  # Add item to cart with quantity of 1 by default
+    CartItem.objects.create(cart=cart, product=product, quantity=1) 
     
-    return redirect('checkout')  # Redirect directly to checkout page
+    return redirect('checkout')  
 
 def search(request):
     query = request.GET.get('q')

@@ -2047,3 +2047,172 @@ h2 {
 }
 .prev { top: 10px; }
 .next { bottom: 10px; }
+
+
+.animate-btn {
+    background: linear-gradient(135deg, #ff7eb3, #ff758c);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 18px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.animate-btn:hover {
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Fade-in Animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Spacing Fixes */
+.hero-section {
+    padding: 60px 0;
+}
+
+
+.tracking-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    position: relative;
+}
+.step {
+    text-align: center;
+    position: relative;
+    flex: 1;
+}
+.step .icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    margin: auto;
+}
+.step.active .icon {
+    background-color: green;
+}
+.step::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background: gray;
+    top: 20px;
+    left: 50%;
+    z-index: -1;
+    transform: translateX(-50%);
+}
+.step:first-child::after {
+    display: none;
+}
+.step.active::after {
+    background: green;
+}
+.step.cancelled .icon {
+    background-color: red;
+}
+
+.tracking-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    margin: 20px auto;
+    position: relative;
+}
+.step {
+    text-align: center;
+    position: relative;
+    flex: 1;
+}
+.step .icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    margin: auto;
+    z-index: 2;
+}
+.step.active .icon {
+    background-color: green;
+}
+.line {
+    height: 3px;
+    background: gray;
+    flex: 1;
+    position: relative;
+    top: -10px;
+    z-index: 1;
+    border-top: 3px dotted gray;
+}
+.line.active {
+    border-top: 3px dotted green;
+}
+.toggle-details {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    display: block;
+    width: 100px;
+    margin: 10px auto;
+}
+
+
+
+.order-items-1 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.order-item-1 {
+    flex: 1 1 calc(33.333% - 10px);
+    max-width: calc(33.333% - 10px);
+    box-sizing: border-box;
+}
+.order-item-image-1 {
+    width: 30%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.cancelled {
+    color: red;
+}
+.active {
+    color: green;
+}
