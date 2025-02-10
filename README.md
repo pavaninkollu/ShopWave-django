@@ -128,16 +128,8 @@ ShopWave is a fully functional e-commerce platform built using Django. It offers
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss.
 
-## License
-This project is licensed under the MIT License.
-
-## Contact
-For any queries, reach out to `your-email@example.com`.
-
-
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss.
 
 
 ## Contact
-For any queries, reach out to `your-email@example.com`.
+For any queries, reach out to `pavankumarinkollu@gmail.com`.
+
