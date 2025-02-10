@@ -112,16 +112,18 @@ ShopWave is a fully functional e-commerce platform built using Django. It offers
 ## Screenshots
 
 
-![E-commerce-Site (10)](https://github.com/user-attachments/assets/050fc70d-15b5-4996-a7d2-c745d9e60595)
+
 ![E-commerce-Site (7)](https://github.com/user-attachments/assets/9dc50d50-b520-45a4-86f1-25bcc2b280cc)
 ![E-commerce-Site (8)](https://github.com/user-attachments/assets/708704b8-149c-4f92-871a-572e5ba5092d)
+![E-commerce-Site (11)](https://github.com/user-attachments/assets/381ad547-d0a5-4f85-89d2-3d8bcc514545)
+![E-commerce-Site (12)](https://github.com/user-attachments/assets/0fed6b6a-42a0-4542-a3c1-b1d9e223e27a)
+![E-commerce-Site (13)](https://github.com/user-attachments/assets/833a3755-df4c-463f-a1d7-8b74eb449ade)
 ![E-commerce-Site (9)](https://github.com/user-attachments/assets/ca23a3a8-4caa-4ebd-aa69-2042a928225e)
 
 
-![E-commerce-Site (12)](https://github.com/user-attachments/assets/0fed6b6a-42a0-4542-a3c1-b1d9e223e27a)
-![E-commerce-Site (13)](https://github.com/user-attachments/assets/833a3755-df4c-463f-a1d7-8b74eb449ade)
+
 ![E-commerce-Site (14)](https://github.com/user-attachments/assets/582cf6fb-eee1-4cb6-9817-5d42a41ca7f7)
-![E-commerce-Site (11)](https://github.com/user-attachments/assets/381ad547-d0a5-4f85-89d2-3d8bcc514545)
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss.
