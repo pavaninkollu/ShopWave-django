@@ -110,8 +110,8 @@ ShopWave is a fully functional e-commerce platform built using Django. It offers
 - Admin panel available at `/admin/` for managing orders and products.
 
 ## Screenshots
-![Homepage]([E-commerce-Site (7)](https://github.com/user-attachments/assets/b4b6cfce-362d-428f-8811-a4357652b4c2))
-
+![Homepage]()
+![Homepage]([E-commerce-Site (7)](https://github.com/user-attachments/assets/b4b6cfce-362d-428f-8811-a4357652b4c2)
 
 
 
