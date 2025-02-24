@@ -2,12 +2,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Payment</title>
+    <title>Secure Payment</title>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(45deg, #0f0c29, #302b63, #24243e);
+            overflow: hidden;
+            position: relative;
+        }
+
+       
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .background span {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            animation: move 10s linear infinite;
+        }
+
+        @keyframes move {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+
+        .payment-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            color: white;
+            width: 350px;
+            position: relative;
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+      
+        .pay-btn {
+            background: #ff5722;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            box-shadow: 0 0 10px #ff5722;
+        }
+
+        .pay-btn:hover {
+            background: #ff3d00;
+            box-shadow: 0 0 15px #ff3d00, 0 0 30px #ff3d00;
+        }
+
+     
+        .loading {
+            display: none;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .loading span {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid transparent;
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <h2>Complete Your Payment</h2>
-    <button id="pay-btn">Pay Now</button>
+
+  
+    <div class="background">
+        {% for i in "0123456789" %}
+        <span style="left: {{ forloop.counter|add:5 }}0%; animation-duration: {{ forloop.counter|add:3 }}s;"></span>
+        {% endfor %}
+    </div>
+
+ 
+    <div class="payment-container">
+        <h2>Secure Payment</h2>
+        <button id="pay-btn" class="pay-btn">💳 Pay Now</button>
+        <div class="loading" id="loading">
+            <span></span>
+            <p>Processing Payment...</p>
+        </div>
+    </div>
 
     <script>
         var options = {
@@ -18,6 +133,9 @@
             "description": "Purchase Description",
             "order_id": "{{ razorpay_order_id }}",
             "handler": function (response){
+                document.getElementById("pay-btn").disabled = true;
+                document.getElementById("loading").style.display = "block";
+
                 fetch("{% url 'verify_payment' %}", {
                     method: "POST",
                     headers: {
@@ -41,9 +159,10 @@
                 });
             },
             "theme": {
-                "color": "#3399cc"
+                "color": "#ff5722"
             }
         };
+
         var rzp = new Razorpay(options);
 
         document.getElementById("pay-btn").onclick = function(e){
@@ -51,5 +170,7 @@
             e.preventDefault();
         }
     </script>
+
 </body>
 </html>
+
