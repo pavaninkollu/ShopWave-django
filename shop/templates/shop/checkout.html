@@ -3,63 +3,148 @@
 {% block extra_css %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'shop/css/styles.css' %}">
+<style>
+    body {
+        background-color: #f5f5f5;
+        font-family: 'Arial', sans-serif;
+    }
+    .container {
+        width: 50%;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+    .checkout-section {
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #eee;
+    }
+    h2 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    h3 {
+        color: #007bff;
+        border-left: 5px solid #007bff;
+        padding-left: 10px;
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+    input, textarea {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+    .checkout-product-image {
+        width: 80px;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .table th, .table td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: center;
+    }
+    .btn-primary {
+        background: #fb641b;
+        color: #fff;
+        padding: 14px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 18px;
+        width: 100%;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    .btn-primary:hover {
+        background: #d95a00;
+    }
+    .payment-options label {
+        display: block;
+        padding: 8px;
+        background: #f8f9fa;
+        margin: 5px 0;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<h2>Checkout</h2>
+<div class="container">
+    <h2>Checkout</h2>
+    
+    
+    <div class="checkout-section">
+        <h3>1. Delivery Address</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="checkout-field">
+                <label for="address">Address:</label>
+                <textarea name="address" id="address" required>{{ user.userprofile.address }}</textarea>
+            </div>
+            <div class="checkout-field">
+                <label for="phone_number">Phone Number:</label>
+                <input type="text" name="phone_number" id="phone_number" value="{{ user.userprofile.phone_number }}" required>
+            </div>
 
-<!-- Section 1: Delivery Address -->
-<div class="checkout-section">
-    <h3>1. Delivery Address</h3>
-    <form method="POST">
-        {% csrf_token %}
-        <div class="checkout-field">
-            <label for="address">Address:</label>
-            <textarea name="address" id="address" required>{{ user.userprofile.address }}</textarea>
-        </div>
-        <div class="checkout-field">
-            <label for="phone_number">Phone Number:</label>
-            <input type="text" name="phone_number" id="phone_number" value="{{ user.userprofile.phone_number }}" required>
-        </div>
-
-        <!-- Section 2: Product Order Summary -->
-        <div class="checkout-section">
-            <h3>2. Product Order Summary</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in cart_items %}
+          
+            <div class="checkout-section">
+                <h3>2. Product Order Summary</h3>
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>
-                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="checkout-product-image">
-                            </td>
-                            <td>{{ item.product.name }}</td>
-                            <td>{{ item.quantity }}</td>
-                            <td>₹{{ item.price_per_item }}</td>
-                            <td>₹{{ item.item_total }}</td>
+                            <th>Product</th>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                            <tr>
+                                <td>
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="checkout-product-image">
+                                </td>
+                                <td>{{ item.product.name }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>₹{{ item.price_per_item }}</td>
+                                <td>₹{{ item.item_total }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <p><strong>Total Price: ₹{{ total_price }}</strong></p>
+            </div>
 
-            <p><strong>Total Price: ₹{{ total_price }}</strong></p>
-        </div>
+           
+            <div class="checkout-section">
+                <h3>3. Payment</h3>
+                <div class="payment-options">
+                    <label><input type="radio" name="payment" id="cod"> Cash on Delivery</label>
+                    <label><input type="radio" name="payment" id="card"> Credit/Debit Card</label>
+                    <label><input type="radio" name="payment" id="upi"> UPI</label>
+                </div>
+            </div>
 
-        <!-- Section 3: Payment Section (Future Implementation) -->
-        <div class="checkout-section">
-            <h3>3. Payment</h3>
-            <p>This section will be implemented later.</p>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Place Order</button>
-    </form>
+            <button type="submit" class="btn-primary">Place Order</button>
+        </form>
+    </div>
 </div>
-
 {% endblock %}
+
+
+
+
