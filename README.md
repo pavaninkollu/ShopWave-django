@@ -124,6 +124,14 @@ ShopWave is a fully functional e-commerce platform built using Django. It offers
 
 ![E-commerce-Site (14)](https://github.com/user-attachments/assets/582cf6fb-eee1-4cb6-9817-5d42a41ca7f7)
 
+## 📽️ Demo Video
+
+<video width="700" controls>
+  <source src="assets/E-commercesite.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss.
