@@ -77,6 +77,10 @@ ShopWave is a fully functional e-commerce platform built using Django. It offers
 
 
 
+https://github.com/user-attachments/assets/ab981603-2c8a-4527-b8ce-f64f7ba4aaa9
+
+
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss.
 
